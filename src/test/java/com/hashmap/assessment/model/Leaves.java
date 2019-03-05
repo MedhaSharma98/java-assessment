@@ -21,13 +21,33 @@ public class Leaves {
 
     public int totalLeaveCredited(Employee employee){
         int count=0;
-        if(employee.getRole().equals(new Admin())){
+        if(employee.getType().equals(EmployeeType.PERMANENT)){
             for (Map.Entry<LeaveType,Integer> entry : leaveTypeMap.entrySet()){
                 count+=entry.getValue();
             }
             return count;
     }
             return count;
+    }
+
+    public void deductLeave(String employeeId,int noOFDays){
+
+    }
+
+    public Map<LeaveType,Integer> getLeaveTypeMap(EmployeeType type){
+        if(type.equals(EmployeeType.PERMANENT)){
+           return this.leaveTypeMap;
+        }
+        return getLeaveTypeMapforProbation();
+    }
+
+    public Map<LeaveType,Integer> getLeaveTypeMapforProbation(){
+        Map<LeaveType,Integer> map=new HashMap<>();
+
+        for (Map.Entry<LeaveType,Integer> entry : leaveTypeMap.entrySet()){
+            map.put(entry.getKey(),0);
+        }
+        return map;
     }
 
 

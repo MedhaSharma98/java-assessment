@@ -2,15 +2,17 @@ package com.hashmap.assessment.model;
 
 import com.hashmap.assessment.Utilties.Exception.EmailException;
 import com.hashmap.assessment.Utilties.Exception.LengthException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import com.hashmap.assessment.Utilties.StringUtilties;
 
-
 @Getter
+@EqualsAndHashCode
 public class Employee {
     private String name;
     private String email;
@@ -18,6 +20,7 @@ public class Employee {
     private EmployeeType type;
     private String employeeId;
     private Role role;
+    private Map<LeaveType,Integer> employeeLeaves;
 
     public Employee(String name,String email,Date dateOfJoining,EmployeeType type,Role role){
         if(name.length()>50){
@@ -34,6 +37,7 @@ public class Employee {
         this.type=type;
         this.employeeId= UUID.randomUUID().toString();
         this.role=role;
+        this.employeeLeaves=new Leaves().getLeaveTypeMap();
     }
 
 }
