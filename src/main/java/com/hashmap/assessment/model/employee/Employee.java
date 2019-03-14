@@ -1,15 +1,15 @@
-package com.hashmap.assessment.model;
+package com.hashmap.assessment.model.employee;
 
-import com.hashmap.assessment.Utilties.Exception.EmailException;
-import com.hashmap.assessment.Utilties.Exception.LengthException;
+import com.hashmap.assessment.Utilties.LengthValidation;
+import com.hashmap.assessment.exception.EmailException;
+import com.hashmap.assessment.exception.LengthException;
+import com.hashmap.assessment.Utilties.EmailValidation;
+import com.hashmap.assessment.model.employee.role.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
-
-import com.hashmap.assessment.Utilties.StringUtilties;
 
 @Getter
 @EqualsAndHashCode
@@ -20,14 +20,13 @@ public class Employee {
     private EmployeeType type;
     private String employeeId;
     private Role role;
-    private Map<LeaveType,Integer> employeeLeaves;
 
     public Employee(String name,String email,Date dateOfJoining,EmployeeType type,Role role){
-        if(name.length()>50){
+        if(LengthValidation.isValidLength(name,50)){
           throw new LengthException("length limit max 50 characters");
         }
 
-        if(!(StringUtilties.isValidEmail(email))){
+        if(!(EmailValidation.isValidEmail(email))){
            throw new EmailException("invalid email");
         }
 
@@ -37,7 +36,7 @@ public class Employee {
         this.type=type;
         this.employeeId= UUID.randomUUID().toString();
         this.role=role;
-        this.employeeLeaves=new Leaves().getLeaveTypeMap();
+
     }
 
 }

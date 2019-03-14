@@ -1,5 +1,6 @@
-package com.hashmap.assessment.model;
+package com.hashmap.assessment.model.request;
 
+import com.hashmap.assessment.model.leave.LeaveType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

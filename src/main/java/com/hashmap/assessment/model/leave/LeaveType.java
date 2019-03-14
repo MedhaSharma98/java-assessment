@@ -1,4 +1,4 @@
-package com.hashmap.assessment.model;
+package com.hashmap.assessment.model.leave;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

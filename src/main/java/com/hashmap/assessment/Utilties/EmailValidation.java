@@ -2,7 +2,7 @@ package com.hashmap.assessment.Utilties;
 
 import java.util.regex.Pattern;
 
-public class StringUtilties {
+public class EmailValidation {
 
     public static boolean isValidEmail(String email)
     {
