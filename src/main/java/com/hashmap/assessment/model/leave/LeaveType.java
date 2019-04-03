@@ -5,5 +5,5 @@ import lombok.Getter;
 
 @Getter
 public enum LeaveType {
-    SICK,CASUAL,PRIVILEAGE
+    SICK, CASUAL, PRIVILEAGE
 }

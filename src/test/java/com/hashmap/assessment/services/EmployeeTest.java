@@ -4,7 +4,9 @@ import com.hashmap.assessment.model.employee.role.Admin;
 import com.hashmap.assessment.model.employee.Employee;
 import com.hashmap.assessment.model.employee.EmployeeType;
 import com.hashmap.assessment.model.employee.role.NonAdmin;
+import com.hashmap.assessment.model.holiday.Holiday;
 import com.hashmap.assessment.model.leave.LeaveType;
+import com.hashmap.assessment.model.request.RequestLeaves;
 import com.hashmap.assessment.services.admin.AdminServiceImple;
 import com.hashmap.assessment.services.employee.EmployeeServiceImple;
 import org.junit.Before;
@@ -38,13 +40,13 @@ public class EmployeeTest {
     adminService.addEmployee(new Employee("Vedant","Vedant5@gmail.com",new Date(2018,2,16),
                  EmployeeType.PERMANENT,new NonAdmin()));
 
-     adminService.setdefaultLeavesOfPermmanentEmployee(LeaveType.SICK,5);
-     adminService.setdefaultLeavesOfPermmanentEmployee(LeaveType.CASUAL,5);
-     adminService.setdefaultLeavesOfPermmanentEmployee(LeaveType.PRIVILEAGE,5);
+     adminService.defaultLeavesOfPermmanentEmployee(LeaveType.SICK,5);
+     adminService.defaultLeavesOfPermmanentEmployee(LeaveType.CASUAL,5);
+     adminService.defaultLeavesOfPermmanentEmployee(LeaveType.PRIVILEAGE,5);
 
-     adminService.setdefaultLeavesOfProbationEmployee(LeaveType.SICK,0);
-     adminService.setdefaultLeavesOfProbationEmployee(LeaveType.CASUAL,0);
-      adminService.setdefaultLeavesOfProbationEmployee(LeaveType.PRIVILEAGE,0);
+     adminService.defaultLeavesOfProbationEmployee(LeaveType.SICK,0);
+     adminService.defaultLeavesOfProbationEmployee(LeaveType.CASUAL,0);
+      adminService.defaultLeavesOfProbationEmployee(LeaveType.PRIVILEAGE,0);
 
          adminService.assignLeaves(employee.getEmployeeId(),EmployeeType.PERMANENT);
 
@@ -58,7 +60,16 @@ public class EmployeeTest {
          Assert.assertEquals(15,expectedTotal);
      }
 
+     @Before
+     public void intit2(){
+         adminService.addHoliday(new Holiday("Holi",new Date(2019,2,21)));
+         adminService.addHoliday(new Holiday("Independence Day",new Date(2019,7,15)));
+     }
 
+     @Test
+     public void applyLeavesTest() {
+         Assert.assertEquals(1,employeeServiceImple.applyLeaves(new RequestLeaves(employee.getEmployeeId(),LeaveType.SICK,"19/7/15 19/7/16 19/7/17 19/7/18")));
+     }
 
         }
 

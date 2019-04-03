@@ -1,4 +1,4 @@
-package com.hashmap.assessment.Utilties;
+package com.hashmap.assessment.utilties;
 
 import java.util.regex.Pattern;
 

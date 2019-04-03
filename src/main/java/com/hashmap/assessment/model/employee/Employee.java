@@ -1,9 +1,9 @@
 package com.hashmap.assessment.model.employee;
 
-import com.hashmap.assessment.Utilties.LengthValidation;
+import com.hashmap.assessment.utilties.LengthValidation;
 import com.hashmap.assessment.exception.EmailException;
 import com.hashmap.assessment.exception.LengthException;
-import com.hashmap.assessment.Utilties.EmailValidation;
+import com.hashmap.assessment.utilties.EmailValidation;
 import com.hashmap.assessment.model.employee.role.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

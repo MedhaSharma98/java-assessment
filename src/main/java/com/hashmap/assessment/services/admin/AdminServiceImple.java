@@ -7,7 +7,6 @@ import com.hashmap.assessment.model.holiday.Holiday;
 import com.hashmap.assessment.model.employee.Employee;
 import com.hashmap.assessment.model.leave.LeaveType;
 import com.hashmap.assessment.services.DatabaseService;
-import com.hashmap.assessment.services.holiday.ManageHolidayImple;
 import com.hashmap.assessment.services.leave.AssignLeavesImple;
 
 
@@ -36,47 +35,49 @@ public class AdminServiceImple implements AdminService {
       throw new UserExistenceException("User doesn't exist");
     }
 
+
     @Override
     public void addHoliday(Holiday holiday) {
-        new ManageHolidayImple().addHoliday(holiday,admin);
+
+        databaseService.getDatabase().getHolidaysList().add(holiday);
     }
 
     @Override
     public void removeHoliday(Holiday holiday) {
-        new ManageHolidayImple().addHoliday(holiday,admin);
+        databaseService.getDatabase().getHolidaysList().remove(holiday);
+    }
+
+
+    @Override
+    public void assignLeaves( String employeeId, EmployeeType type) {
+        if(type.equals(EmployeeType.PERMANENT)) {
+            databaseService.getDatabase().getEmployeeLeaves().put(employeeId,databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee());
+        }
+        else{
+            databaseService.getDatabase().getEmployeeLeaves().put(employeeId,databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee());
+        }
     }
 
     @Override
-    public void assignLeaves(String employeeId, EmployeeType type) {
-        for(Employee e:databaseService.getDatabase().getEmployeeList()){
-            if(e.getEmployeeId().equals(employeeId)){
-                new AssignLeavesImple().assignLeaves(admin,employeeId,type);
-                return;
-            }
-        }
-        throw new UserExistenceException("User doesn't exist");
+    public void deductLeave(String employeeId,LeaveType type, int number) {
+        databaseService.getDatabase().getEmployeeLeaves().get(employeeId).remove(type);
+        databaseService.getDatabase().getEmployeeLeaves().get(employeeId).put(type,number);
     }
 
     @Override
     public void modifyLeaves(String employeeId, LeaveType type, Integer number) {
-        for(Employee e:databaseService.getDatabase().getEmployeeList()){
-            if(e.getEmployeeId().equals(employeeId)){
-                new AssignLeavesImple().modifyLeaves(admin,employeeId,type,number);
-                return;
-            }
-        }
-        throw new UserExistenceException("User doesn't exist");
+        databaseService.getDatabase().getEmployeeLeaves().get(employeeId).remove(type);
+        databaseService.getDatabase().getEmployeeLeaves().get(employeeId).put(type,number);
+    }
+
+    @Override
+    public void defaultLeavesOfPermmanentEmployee(LeaveType type, Integer number) {
+        databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee().put(type,number);
 
     }
 
     @Override
-    public void setdefaultLeavesOfPermmanentEmployee(LeaveType type, Integer number) {
-        new AssignLeavesImple().setdefaultLeavesOfPermmanentEmployee(type, number);
+    public void defaultLeavesOfProbationEmployee(LeaveType type, Integer number) {
+        databaseService.getDatabase().getDefaultLeavesOfProbationEmployee().put(type,number);
     }
-
-    @Override
-    public void setdefaultLeavesOfProbationEmployee(LeaveType type, Integer number) {
-        new AssignLeavesImple().setdefaultLeavesOfProbationEmployee(type, number);
-    }
-
 }

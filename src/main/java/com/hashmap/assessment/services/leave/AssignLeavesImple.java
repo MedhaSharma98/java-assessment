@@ -3,7 +3,11 @@ package com.hashmap.assessment.services.leave;
 import com.hashmap.assessment.model.employee.EmployeeType;
 import com.hashmap.assessment.model.employee.role.Admin;
 import com.hashmap.assessment.model.leave.LeaveType;
+import com.hashmap.assessment.model.request.RequestLeaves;
 import com.hashmap.assessment.services.DatabaseService;
+import com.hashmap.assessment.utilties.date.DateFunctions;
+
+import java.util.Map;
 
 public class AssignLeavesImple implements Leave {
     private DatabaseService databaseService;
@@ -12,29 +16,25 @@ public class AssignLeavesImple implements Leave {
         databaseService=DatabaseService.getInstance();
     }
 
-    @Override
-    public void assignLeaves(Admin admin, String employeeId, EmployeeType type) {
-        if(type.equals(EmployeeType.PERMANENT)) {
-     databaseService.getDatabase().getEmployeeLeaves().put(employeeId,databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee());
+
+
+    public  boolean hasSufficeintLeave(String id, LeaveType type,int number){
+        if(databaseService.getDatabase().getEmployeeLeaves().get(id).get(type)>=number){
+            return true;
         }
-        else{
-     databaseService.getDatabase().getEmployeeLeaves().put(employeeId,databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee());
+        return false;
+    }
+
+    @Override
+    public int totalLeaveCredit(String employeeId) {
+        int total = 0;
+        Map<LeaveType, Integer> map = databaseService.getDatabase().getEmployeeLeaves().get(employeeId);
+
+        for (Map.Entry<LeaveType, Integer> m : map.entrySet()) {
+            total += m.getValue();
         }
+        return total;
     }
 
-    @Override
-    public void modifyLeaves(Admin admin,String employeeId, LeaveType type, Integer number) {
-        databaseService.getDatabase().getEmployeeLeaves().get(employeeId).put(type,number);
-    }
 
-    @Override
-    public void setdefaultLeavesOfPermmanentEmployee(LeaveType type, Integer number) {
-        databaseService.getDatabase().getDefaultLeavesOfPermmanentEmployee().put(type,number);
-
-    }
-
-    @Override
-    public void setdefaultLeavesOfProbationEmployee(LeaveType type, Integer number) {
-        databaseService.getDatabase().getDefaultLeavesOfProbationEmployee().put(type,number);
-    }
 }
